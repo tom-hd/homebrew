@@ -9,6 +9,7 @@ class RxvtUnicode < Formula
 
   depends_on :x11
   depends_on 'pkg-config' => :build
+  depends_on :x11
 
   def patches
     # Patch hunks 1 and 2 allow perl support to compile on Intel.

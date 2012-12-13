@@ -2,8 +2,8 @@ require 'formula'
 
 class SwiProlog < Formula
   homepage 'http://www.swi-prolog.org/'
-  url 'http://www.swi-prolog.org/download/stable/src/pl-6.0.2.tar.gz'
-  sha256 '9dbc4d3aef399204263f168583e54468078528bff75c48c7895ae3efe5499b75'
+  url 'http://www.swi-prolog.org/download/stable/src/pl-6.2.3.tar.gz'
+  sha256 '4421251d6ff74a410b5c42cd31d688cbfe80043bcc719f71d13bd57ecc2483f4'
 
   head 'git://www.swi-prolog.org/home/pl/git/pl.git'
 

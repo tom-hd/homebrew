@@ -5,9 +5,10 @@ class Collectd < Formula
   url 'http://collectd.org/files/collectd-5.1.0.tar.bz2'
   sha1 '77545833b77a03ec02219bfb925e6a1f3463ddef'
 
-  depends_on 'pkg-config' => :build
+  # Will fail against Java 1.7
+  option "java", "Enable Java 1.6 support"
 
-  skip_clean :all
+  depends_on 'pkg-config' => :build
 
   fails_with :clang do
     build 318
@@ -28,6 +29,7 @@ class Collectd < Formula
               --with-python=/usr/bin]
 
     args << "--disable-embedded-perl" if MacOS.version == :leopard
+    args << "--disable-java" unless build.include? "java"
 
     system "./configure", *args
     system "make install"

@@ -5,8 +5,8 @@ class WineGecko < Formula
   sha1 'c30aa99621e98336eb4b7e2074118b8af8ea2ad5'
 
   devel do
-    url 'http://downloads.sourceforge.net/wine/wine_gecko-1.5-x86.msi', :using => :nounzip
-    sha1 '07b2bc74d03c885bb39124a7641715314cd3ae71'
+    url 'http://downloads.sourceforge.net/wine/wine_gecko-1.8-x86.msi', :using => :nounzip
+    sha1 'a8622ff749cc2a2cb311f902b7e99664ecc2f8d6'
   end
 end
 
@@ -14,12 +14,17 @@ class Wine < Formula
   homepage 'http://winehq.org/'
   url 'http://downloads.sourceforge.net/project/wine/Source/wine-1.4.1.tar.bz2'
   sha256 '3c233e3811e42c2f3623413783dbcd0f2288014b5645211f669ffd0ba6ae1856'
+
   head 'git://source.winehq.org/git/wine.git'
 
   devel do
-    url 'http://downloads.sourceforge.net/project/wine/Source/wine-1.5.12.tar.bz2'
-    sha256 'ba987a0e3b1d5c0ba2d42fecdcff1c4e910d7c9949d9baca796b8b5c1318662c'
+    # NOTE: when updating Wine, please check if Wine-Gecko needs updating too
+    # see http://wiki.winehq.org/Gecko
+    url 'http://downloads.sourceforge.net/project/wine/Source/wine-1.5.16.tar.bz2'
+    sha256 '2f4df6ade18d636c892bee0feb6fd075eb3ad299e61d250ea359659d6411e723'
   end
+
+  env :std
 
   depends_on :x11
   depends_on 'jpeg'
@@ -89,8 +94,8 @@ class Wine < Formula
 
     # Use a wrapper script, so rename wine to wine.bin
     # and name our startup script wine
-    mv (bin+'wine'), (bin+'wine.bin')
-    (bin+'wine').write(wine_wrapper)
+    mv bin/'wine', bin/'wine.bin'
+    (bin/'wine').write(wine_wrapper)
   end
 
   def caveats
@@ -104,6 +109,16 @@ class Wine < Formula
       Or check out:
         http://code.google.com/p/osxwinebuilder/
     EOS
+    # see http://bugs.winehq.org/show_bug.cgi?id=31374
+    unless build.stable?
+      s += <<-EOS.undent
+
+        The current version of Wine contains a partial implementation of dwrite.dll
+        which may cause text rendering issues in applications such as Steam.
+        We recommend that you run winecfg, add an override for dwrite in the
+        Libraries tab, and edit the override mode to "disable".
+      EOS
+    end
     return s
   end
 end
