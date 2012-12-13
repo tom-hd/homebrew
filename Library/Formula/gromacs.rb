@@ -8,7 +8,6 @@ class Gromacs < Formula
   option 'enable-mpi', "Enables MPI support"
   option 'enable-double',"Enables double precision"
 
-  depends_on :x11
   depends_on 'fftw'
 
   def install
